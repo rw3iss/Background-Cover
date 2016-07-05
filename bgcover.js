@@ -65,15 +65,15 @@ function BackgroundCover(el) {
 	    self.content.style.left = '-' + translateX + 'px';
 	  }
 
-    // check aspect ratio
-    var ratio = self.wrapper.offsetWidth / self.wrapper.offsetHeight;
-    if(ratio != RATIO_A/RATIO_B) {
-    	console.log("Ratio", ratio, RATIO_A/RATIO_B);
-    	//aspect ratio off, so calculate and change width to fit into height of container
-    	var w = (self.containerHeight / RATIO_B) * RATIO_A;
-    	console.log("new width", self.containerHeight, w);
-    	self.wrapper.style.width = w + 'px';
-    }			
+	  // check aspect ratio
+	  var ratio = self.wrapper.offsetWidth / self.wrapper.offsetHeight;
+	  if(ratio != RATIO_A/RATIO_B) {
+	  	console.log("Ratio", ratio, RATIO_A/RATIO_B);
+	  	//aspect ratio off, so calculate and change width to fit into height of container
+	  	var w = (self.containerHeight / RATIO_B) * RATIO_A;
+	  	console.log("new width", self.containerHeight, w);
+	  	self.wrapper.style.width = w + 'px';
+	  }			
 
 	  return self;
 	}
