@@ -8,6 +8,9 @@
  * Author: Ryan Weiss <rw3iss@gmail.com> 
  */
 
+var RATIO_A = 16;
+var RATIO_B = 9;
+
 var addEvent = function(object, type, callback) {
   if (object == null || typeof(object) == 'undefined') return;
   if (object.addEventListener) {
@@ -20,9 +23,6 @@ var addEvent = function(object, type, callback) {
 };
 
 function BackgroundCover(el) {
-
-	console.log("bgcover", el)
-	
 	var self = this;
 	// on init and resize:
 	// get size of $(this), and make its inner container's width one that will cover parent's height
@@ -30,9 +30,8 @@ function BackgroundCover(el) {
 	self.el = el;
 	self.containerWidth = el.offsetWidth;
 	self.containerHeight = el.offsetHeight;
-	self.innerChild = el.children[0]; // assumed to be div, iframe, or video element
-	self.innerChild.className += 'content';
-
+	self.content = el.children[0]; // assumed to be div, iframe, or video element
+	self.content.className += 'content';
 
 	el.innerHTML = '<div class="wrapper">' + el.innerHTML + '</div>';
 	self.wrapper = el.getElementsByClassName('wrapper')[0];
@@ -43,29 +42,31 @@ function BackgroundCover(el) {
 	  self.containerHeight = self.el.offsetHeight;
 
 	  // make sure the width fits first
-	  if(self.innerChild.offsetWidth < self.containerWidth) {
+	  if(self.wrapper.offsetWidth < self.containerWidth) {
 	    self.wrapper.style.width = self.containerWidth + 'px';
 	  }
 
-	  // if height of container is smaller than the defined aspect ratio, 
-	  // resize the width so the height covers, and then recenter:
-	  if(self.innerChild.offsetHeight < self.containerHeight) {
+	  // make sure content fills height:
+	  if(self.wrapper.offsetHeight < self.containerHeight) {
 	    self.wrapper.style.height = self.containerHeight + 'px';
 
 	    // find new width
-	    var w = (self.containerHeight / 9) * 16;
+	    var w = (self.containerHeight / RATIO_B) * RATIO_A;
 	    self.wrapper.style.width = w + 'px';
 
 	    // recenter
 	    var translateX = (w - self.containerWidth) / 2;
-	    var translateY = (self.innerChild.offsetHeight - self.containerHeight) / 2;
-	    self.innerChild.style.left = '-' + translateX + 'px';
-
-
-	    //self.innerChild.style.top = '-' + translateY + 'px';
-
-	    console.log("Y", translateY);
+	    var translateY = (self.content.offsetHeight - self.containerHeight) / 2;
+	    self.content.style.left = '-' + translateX + 'px';
 	  }
+
+    // check aspect ratio
+    var ratio = self.wrapper.offsetWidth / self.wrapper.offsetHeight;
+    if(ratio != RATIO_A/RATIO_B) {
+    	//aspect ratio off, so calculate and change width to fit into height of container
+    	var w = (self.containerHeight/ RATIO_B) * RATIO_A;
+    	self.wrapper.style.width = w;
+    }
 
 	  return self;
 	}
