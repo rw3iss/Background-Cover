@@ -24,6 +24,9 @@ var addEvent = function(object, type, callback) {
 
 function BackgroundCover(el) {
 	var self = this;
+
+	console.log("BG", el);
+
 	// on init and resize:
 	// get size of $(this), and make its inner container's width one that will cover parent's height
 	//todo: check if jquery element, retrieve basic html element. assuming html element for now.
@@ -35,6 +38,8 @@ function BackgroundCover(el) {
 
 	el.innerHTML = '<div class="wrapper">' + el.innerHTML + '</div>';
 	self.wrapper = el.getElementsByClassName('wrapper')[0];
+
+	console.log('wrapper', self.wrapper);
 
 	self.resizeSelf = function() {
 	  // these are the dimensions we're trying to cover
@@ -63,18 +68,20 @@ function BackgroundCover(el) {
     // check aspect ratio
     var ratio = self.wrapper.offsetWidth / self.wrapper.offsetHeight;
     if(ratio != RATIO_A/RATIO_B) {
+    	console.log("Ratio", ratio, RATIO_A/RATIO_B);
     	//aspect ratio off, so calculate and change width to fit into height of container
-    	var w = (self.containerHeight/ RATIO_B) * RATIO_A;
-    	self.wrapper.style.width = w;
-    }
+    	var w = (self.containerHeight / RATIO_B) * RATIO_A;
+    	console.log("new width", self.containerHeight, w);
+    	self.wrapper.style.width = w + 'px';
+    }			
 
 	  return self;
 	}
 
 	// these may already have fired, but just in case
-	addEvent(window, 'onload', this.resizeSelf);
-	addEvent(window, 'ondomcontentready', this.resizeSelf);
-	addEvent(window, 'resize', this.resizeSelf);
+	addEvent(window, 'onload', self.resizeSelf);
+	addEvent(window, 'ondomcontentready', self.resizeSelf);
+	addEvent(window, 'resize', self.resizeSelf);
 
 	return self.resizeSelf();
 }
