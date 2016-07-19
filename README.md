@@ -21,7 +21,7 @@ Without jQuery:
     		}
     	}
     	
-** How it Works **
+**How it Works:**
 * Wraps the content, and then modifies the dimensions of the wrapper, keeping its content centered through CSS. 
 * After that, a small piece of javascript ensures the width and height cover the parent's dimensions, and otherwise resizes the wrapper to a size that will cover both dimensions, ensuring the wrapper remains centered relative to its parent. This resizing operation takes place on every window resize as well.
     	
