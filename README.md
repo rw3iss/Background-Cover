@@ -21,6 +21,9 @@ Without jQuery:
     		}
     	}
     	
+** How it Works **
+* Wraps the content, and then modifies the dimensions of the wrapper, keeping its content centered through CSS. 
+* After that, a small piece of javascript ensures the width and height cover the parent's dimensions, and otherwise resizes the wrapper to a size that will cover both dimensions, ensuring the wrapper remains centered relative to its parent. This resizing operation takes place on every window resize as well.
     	
 **Roadmap:**
 * add preloadable poster images for any content type. There will be two attributes: actual posted image (full-res), and a tiny thumbnail of it (which will render first with a CSS blur, fading in the full-res poster when it is downloaded).
